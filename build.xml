@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PACServer" basedir="." default="">
+    <property name="src" value="src"/>
+    <property name="lib" value="lib"/>
+    <property name="bin" value="bin"/>
+    <property name="dest" value="dest"/>
+    <property name="version" value="0.0.1"/>
+    <path id="classpath">
+        <pathelement path="${bin}"/>
+    </path>
+    <target name="compile" description="Compile Java source file">
+        <delete dir="${bin}"/>
+        <mkdir dir="${bin}"/>
+        <javac destdir="${bin}" debug="true" includeantruntime="yes"
+               deprecation="false" optimize="false" failonerror="true">
+            <compilerarg line="-encoding UTF-8 "/>
+            <src path="${src}"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    <target name="run" depends="compile" description="Run Java program">
+        <java classname="pacserver.PACServer"
+              fork="yes" failonerror="true">
+            <classpath refid="classpath"/>
+            <arg line=""/>
+        </java>
+    </target>
+    <target name="build" depends="compile" description="Build the JAR package">
+        <delete dir="${dest}"/>
+        <mkdir dir="${dest}"/>
+        <jar destfile="${dest}/PACServer-${version}.jar" basedir="${bin}">
+            <manifest>
+                <attribute name="Main-Class" value="pacserver.PACServer"/>
+            </manifest>
+        </jar>
+        <copy todir="${dest}">
+            <fileset dir="${basedir}">
+                <include name="proxy.pac"/>
+                <include name="ps.bat"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean" description="Clean all compiled files">
+        <delete dir="${bin}"/>
+        <delete dir="${dest}"/>
+    </target>
+</project>

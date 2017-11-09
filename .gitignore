@@ -1,0 +1,14 @@
+/.settings
+/.idea
+/target
+/bin
+/out
+/log
+*.jar
+/.pmd
+/dest
+*.iml
+*.log
+*.rnd
+*.pac
+!lib/*.jar
